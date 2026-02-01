@@ -5,8 +5,11 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 1. What was broken when you started?
 
 - What did the game look like the first time you ran it?
-- List at least two concrete bugs you noticed at the start  
-  (for example: "the secret number kept changing" or "the hints were backwards").
+  - The first time I ran it, it was working fine. Problems began when I tried refreshing the game.
+- **List at least two concrete bugs you noticed at the start**  
+  - 2 concrete bugs I noticed at the start include:
+    - The hints were inaccurate. As I guessed numbers, the hints were misguiding me.
+    - New Game button does not reset the game, it only resets the developer debug chart.
 
 ---
 
@@ -21,9 +24,11 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 3. Debugging and testing your fixes
 
 - How did you decide whether a bug was really fixed?
-- Describe at least one test you ran (manual or using pytest)  
-  and what it showed you about your code.
+  - I verified the bug was fixed by reproducing the original failure and then repeating the same steps after the change. I checked that the hint messages matched the numeric comparison (higher guess -> "Go LOWER", lower guess -> "Go HIGHER"). I also validated that the comparison still worked when the secret was stored as a string on even attempts. Finally, I watched the UI messages and outcomes to ensure they aligned with the expected game state.
+- Describe at least one test you ran (manual or using pytest) and what it showed you about your code.
+  - I ran pytest on `test_game_logic.py` and specifically checked the case where the secret is a string to avoid lexicographic mistakes. The test confirmed that `check_guess(60, "50")` returns `"Too High"` with the correct "Go LOWER" hint. I also manually entered guesses above and below the secret to confirm the hint direction in the UI. This showed the bug was fixed both at the logic level and in the app.
 - Did AI help you design or understand any tests? How?
+  - Yes, AI suggested adding a targeted test for the string secret case, which is the edge case that used to break the hint logic. It also helped update the tests to assert both the outcome and the hint message so the behavior is explicit; this made the test suite better at catching regressions in the future.
 
 ---
 
